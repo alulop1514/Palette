@@ -2,15 +2,30 @@ package com.example.palette
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.TransitionDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.palette.graphics.Palette
+import android.graphics.drawable.BitmapDrawable
+
+import android.R.drawable
+import android.graphics.ColorMatrixColorFilter
+
+import android.graphics.ColorMatrix
+
+
+
+
+
+
 
 class MainActivity2 : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -21,8 +36,10 @@ class MainActivity2 : AppCompatActivity() {
         image.setImageResource(intent.extras!!.getInt("LOGO", 0))
         val toolbar = findViewById<Toolbar>(R.id.appbar2)
         setSupportActionBar(toolbar)
-        val textView1 = findViewById<TextView>(R.id.textView)
-        val textView2 = findViewById<TextView>(R.id.textView2)
+        val seekBar = findViewById<SeekBar>(R.id.seekBar)
+        val seekBar2 = findViewById<SeekBar>(R.id.seekBar2)
+        val contraste = image.contrast
+        val warmth = image.warmth
         image.setOnClickListener {
             if (image.saturation == 1f) {
                 image.saturation = 0f
@@ -45,5 +62,31 @@ class MainActivity2 : AppCompatActivity() {
                 window.statusBarColor = darkvibrant.rgb
             }
         }
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                image.contrast = (contraste + p1 * 0.05).toFloat()
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+            }
+
+        })
+        seekBar.max = 10
+        seekBar2.max = 10
+        seekBar2.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                image.warmth = (warmth + p1 * 0.1).toFloat()
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+            }
+
+        })
     }
 }
