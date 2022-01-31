@@ -17,14 +17,11 @@ import androidx.palette.graphics.Palette
 import android.graphics.drawable.BitmapDrawable
 
 import android.R.drawable
+import android.animation.Animator
 import android.graphics.ColorMatrixColorFilter
 
 import android.graphics.ColorMatrix
-
-
-
-
-
+import android.view.animation.AnimationUtils
 
 
 class MainActivity2 : AppCompatActivity() {
@@ -40,13 +37,6 @@ class MainActivity2 : AppCompatActivity() {
         val seekBar2 = findViewById<SeekBar>(R.id.seekBar2)
         val contraste = image.contrast
         val warmth = image.warmth
-        image.setOnClickListener {
-            if (image.saturation == 1f) {
-                image.saturation = 0f
-            } else {
-                image.saturation = 1f
-            }
-        }
         val bitmap: Bitmap = BitmapFactory.decodeResource(resources, intent.extras!!.getInt("LOGO", 0))
 
         Palette.from(bitmap).generate { palette ->
@@ -64,7 +54,7 @@ class MainActivity2 : AppCompatActivity() {
         }
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                image.contrast = (contraste + p1 * 0.05).toFloat()
+                image.contrast = (contraste + p1 * 0.005).toFloat()
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -74,11 +64,11 @@ class MainActivity2 : AppCompatActivity() {
             }
 
         })
-        seekBar.max = 10
-        seekBar2.max = 10
+        seekBar.max = 100
+        seekBar2.max = 100
         seekBar2.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                image.warmth = (warmth + p1 * 0.1).toFloat()
+                image.warmth = (warmth + p1 * 0.01).toFloat()
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
